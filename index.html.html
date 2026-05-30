@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alexander Heens</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --cream: #f5f0e8;
+      --gold: #c8a96e;
+      --gold-light: #e8d5a8;
+      --mid: #2e4057;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --white: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(13,27,42,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,169,110,0.2);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: rgba(245,240,232,0.8);
+      text-decoration: none; font-size: 0.85rem;
+      font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+    /* ─── PAGE SYSTEM ─────────────────────────── */
+    .page { display: none; min-height: 100vh; padding-top: 72px; }
+    .page.active { display: block; }
+
+    /* ─── HERO ────────────────────────────────── */
+    .hero {
+      min-height: calc(100vh - 72px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left {
+      background: var(--navy);
+      display: flex; flex-direction: column;
+      justify-content: center; padding: 5rem 4rem;
+      position: relative;
+    }
+    .hero-left::after {
+      content: '';
+      position: absolute; top: 0; right: -60px;
+      width: 120px; height: 100%;
+      background: var(--navy);
+      clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 100%);
+      z-index: 1;
+    }
+    .hero-tag {
+      font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .hero-tag::before { content: ''; width: 2rem; height: 1px; background: var(--gold); }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 900;
+      color: var(--white); line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+    .hero-name span { color: var(--gold); display: block; }
+    .hero-desc {
+      font-size: 1.05rem; line-height: 1.75;
+      color: rgba(245,240,232,0.75);
+      max-width: 28rem; margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      background: var(--gold);
+      color: var(--navy); font-weight: 700;
+      font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 1rem 2rem; border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .hero-cta:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .hero-right {
+      background: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      padding: 4rem 3rem; position: relative;
+    }
+    .hero-photo-wrap {
+      position: relative; width: 380px; height: 480px;
+    }
+    .hero-photo-bg {
+      position: absolute; top: 20px; left: 20px;
+      width: 100%; height: 100%;
+      border: 2px solid var(--gold); opacity: 0.5;
+    }
+    .hero-photo {
+      position: relative; width: 100%; height: 100%;
+      background: linear-gradient(135deg, #2e4057 0%, #0d1b2a 100%);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-photo svg { width: 160px; height: 160px; opacity: 0.3; }
+    .hero-initials {
+      position: absolute; font-family: 'Playfair Display', serif;
+      font-size: 8rem; font-weight: 900; color: rgba(200,169,110,0.15);
+      user-select: none;
+    }
+    .hero-photo-label {
+      position: absolute; bottom: -20px; right: -20px;
+      background: var(--gold); color: var(--navy);
+      padding: 0.6rem 1.5rem;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em;
+    }
+
+    /* ─── SECTION COMMON ──────────────────────── */
+    section { padding: 5rem 3rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .section-label::before { content: ''; width: 2rem; height: 1px; background: var(--gold); }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+      color: var(--navy); margin-bottom: 3rem;
+      line-height: 1.2;
+    }
+
+    /* ─── ABOUT STRIP ─────────────────────────── */
+    .about-strip {
+      background: var(--navy);
+    }
+    .about-strip .section-title { color: var(--white); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+    }
+    .about-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(200,169,110,0.2);
+      padding: 2rem; position: relative;
+    }
+    .about-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--gold);
+    }
+    .about-card-icon {
+      font-size: 1.5rem; margin-bottom: 1rem;
+    }
+    .about-card h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold); font-size: 1rem;
+      margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .about-card p {
+      color: rgba(245,240,232,0.7);
+      font-size: 0.95rem; line-height: 1.65;
+    }
+
+    /* ─── PITCH ───────────────────────────────── */
+    .pitch-section {
+      background: var(--cream);
+    }
+    .pitch-box {
+      background: var(--white);
+      border-left: 4px solid var(--gold);
+      padding: 2.5rem 3rem;
+      box-shadow: 8px 8px 0 var(--gold-light);
+      max-width: 800px;
+    }
+    .pitch-box p {
+      font-size: 1.1rem; line-height: 1.8;
+      color: var(--text); font-style: italic;
+    }
+    .pitch-box cite {
+      display: block; margin-top: 1.5rem;
+      font-style: normal; font-size: 0.9rem;
+      color: var(--muted); font-weight: 500;
+    }
+
+    /* ─── EXPERIENCE ──────────────────────────── */
+    .exp-section { background: var(--cream); }
+    .timeline {
+      position: relative; padding-left: 2rem;
+      border-left: 2px solid var(--gold-light);
+    }
+    .timeline-item {
+      position: relative; margin-bottom: 3rem;
+      padding-left: 2rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: -2.6rem; top: 0.4rem;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--gold); border: 2px solid var(--cream);
+    }
+    .timeline-company {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700; color: var(--navy);
+    }
+    .timeline-role {
+      font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); margin: 0.25rem 0;
+    }
+    .timeline-type {
+      display: inline-block;
+      background: var(--navy); color: var(--gold-light);
+      font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.2rem 0.6rem; margin-bottom: 0.6rem;
+    }
+    .timeline-desc {
+      font-size: 0.95rem; line-height: 1.65; color: var(--muted);
+    }
+
+    /* ─── SKILLS PAGE ─────────────────────────── */
+    .skills-hero {
+      background: var(--navy);
+      padding: 6rem 3rem 4rem;
+      text-align: center;
+    }
+    .skills-hero .section-label { justify-content: center; }
+    .skills-hero .section-label::before { display: none; }
+    .skills-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900;
+      color: var(--white); margin-bottom: 1rem;
+    }
+    .skills-hero p {
+      color: rgba(245,240,232,0.7); font-size: 1.05rem;
+      max-width: 600px; margin: 0 auto;
+    }
+
+    .skills-bars { background: var(--cream); }
+    .skills-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+    .skill-bar-item { background: var(--white); padding: 1.5rem 2rem; }
+    .skill-bar-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.8rem;
+    }
+    .skill-bar-name { font-weight: 500; font-size: 0.9rem; color: var(--navy); }
+    .skill-bar-pct { font-size: 0.85rem; color: var(--gold); font-weight: 700; }
+    .skill-bar-track {
+      height: 6px; background: var(--cream); border-radius: 0;
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%; background: var(--gold);
+      border-radius: 0; transition: width 1s ease;
+    }
+
+    .labs-section { background: var(--white); }
+    .labs-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .lab-card {
+      background: var(--cream); padding: 2.5rem 2rem;
+      border-bottom: 3px solid var(--gold);
+      transition: transform 0.2s;
+    }
+    .lab-card:hover { transform: translateY(-4px); }
+    .lab-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .lab-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .lab-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+    .lab-badge {
+      display: inline-block; margin-top: 1rem;
+      background: var(--navy); color: var(--gold-light);
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+    }
+
+    /* ─── BLOG PAGE ───────────────────────────── */
+    .blog-hero {
+      background: var(--navy);
+      padding: 6rem 3rem 5rem;
+      position: relative; overflow: hidden;
+    }
+    .blog-hero::before {
+      content: 'BLOG';
+      position: absolute; right: -2rem; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 20rem; font-weight: 900;
+      color: rgba(200,169,110,0.05);
+      user-select: none; pointer-events: none;
+    }
+    .blog-hero .section-label { margin-bottom: 1rem; }
+    .blog-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900;
+      color: var(--white); margin-bottom: 1rem; max-width: 700px;
+    }
+    .blog-hero p {
+      color: rgba(245,240,232,0.7); font-size: 1rem;
+      max-width: 550px; line-height: 1.7;
+    }
+
+    .blog-coming {
+      background: var(--cream); padding: 5rem 3rem;
+    }
+    .blog-placeholder {
+      max-width: 750px; margin: 0 auto; text-align: center;
+    }
+    .blog-clock {
+      width: 80px; height: 80px; margin: 0 auto 2rem;
+      border-radius: 50%; background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+    }
+    .blog-placeholder h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; color: var(--navy); margin-bottom: 1.5rem;
+    }
+    .blog-placeholder p {
+      font-size: 1rem; color: var(--muted); line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    .blog-placeholder .highlight {
+      font-weight: 500; color: var(--navy);
+    }
+    .blog-wpl-cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+      margin-top: 3rem; text-align: left;
+    }
+    .wpl-card {
+      background: var(--white); padding: 2rem;
+      border-top: 3px solid var(--gold);
+    }
+    .wpl-card-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem; color: var(--gold-light); font-weight: 900;
+      line-height: 1;
+    }
+    .wpl-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; color: var(--navy); margin: 0.5rem 0;
+    }
+    .wpl-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+    .wpl-status {
+      display: inline-block; margin-top: 1rem;
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600;
+    }
+
+    /* ─── LINKEDIN STRIP ──────────────────────── */
+    .linkedin-strip {
+      background: var(--mid); padding: 3rem;
+      display: flex; align-items: center; justify-content: center; gap: 2rem;
+    }
+    .linkedin-strip p { color: rgba(245,240,232,0.85); font-size: 1rem; }
+    .linkedin-btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--gold); color: var(--navy);
+      font-weight: 700; font-size: 0.85rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.9rem 1.8rem; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .linkedin-btn:hover { background: var(--gold-light); }
+
+    /* ─── FOOTER ──────────────────────────────── */
+    footer {
+      background: var(--navy);
+      padding: 2rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(200,169,110,0.2);
+    }
+    footer p { color: rgba(245,240,232,0.4); font-size: 0.8rem; }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold); font-size: 1.1rem;
+    }
+
+    /* ─── ANIMATIONS ──────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .page.active .hero-tag   { animation: fadeUp 0.5s ease 0.1s both; }
+    .page.active .hero-name  { animation: fadeUp 0.5s ease 0.2s both; }
+    .page.active .hero-desc  { animation: fadeUp 0.5s ease 0.3s both; }
+    .page.active .hero-cta   { animation: fadeUp 0.5s ease 0.4s both; }
+    .page.active .hero-photo-wrap { animation: fadeUp 0.6s ease 0.3s both; }
+
+    /* ─── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 860px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 3rem 2rem; }
+      .hero-left::after { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid, .skills-grid, .labs-grid, .blog-wpl-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#" onclick="showPage('home')">AH</a>
+    <ul class="nav-links">
+      <li><a onclick="showPage('home')" class="active" id="nav-home">Wie ben ik?</a></li>
+      <li><a onclick="showPage('skills')" id="nav-skills">Wat kan ik?</a></li>
+      <li><a onclick="showPage('blog')" id="nav-blog">Blog</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══ PAGE 1: WIE BEN IK ═══════════════════ -->
+  <div id="page-home" class="page active">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-left">
+        <div class="hero-tag">Personal Branding</div>
+        <h1 class="hero-name">Alexander<span>Heens</span></h1>
+        <p class="hero-desc">Gedreven student Marketing- en Communicatiesupport met een oprechte passie voor hoe communicatie mensen kan raken en overtuigen.</p>
+        <button class="hero-cta" onclick="document.getElementById('pitch').scrollIntoView({behavior:'smooth'})">
+          Lees meer ↓
+        </button>
+      </div>
+      <div class="hero-right">
+        <div class="hero-photo-wrap">
+          <div class="hero-photo-bg"></div>
+          <div class="hero-photo">
+            <div class="hero-initials">AH</div>
+          </div>
+          <div class="hero-photo-label">Student · Zoersel</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About cards -->
+    <section class="about-strip">
+      <div class="section-inner">
+        <div class="section-label">Over mij</div>
+        <h2 class="section-title">In een oogopslag</h2>
+        <div class="about-grid">
+          <div class="about-card">
+            <div class="about-card-icon">📍</div>
+            <h3>Personalia</h3>
+            <p>Alexander Heens, afkomstig uit de regio Zoersel (Antwerpen). Momenteel student aan AP Hogeschool Antwerpen.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon">🎓</div>
+            <h3>Opleiding</h3>
+            <p>Marketing- en Communicatiesupport @ AP Hogeschool (2025–heden). Voordien: Maatschappij & Welzijn — Technisch Atheneum Brasschaat (2025).</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon">⛷️</div>
+            <h3>Hobby's & Passies</h3>
+            <p>Skiën op de besneeuwde hellingen en golfen op de fairway — twee sporten die discipline, focus én plezier combineren.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Personal pitch -->
+    <section class="pitch-section" id="pitch">
+      <div class="section-inner">
+        <div class="section-label">Mijn verhaal</div>
+        <h2 class="section-title">Personal Pitch</h2>
+        <div class="pitch-box">
+          <p>Ik ben Alexander Heens, een gedreven en leergierige student Marketing- en Communicatiesupport. Ik ben diep gefascineerd door hoe communicatie mensen kan raken, bewegen en overtuigen. Vanuit die nieuwsgierigheid ga ik actief op zoek naar nieuwe inzichten en stel ik me open voor ervaringen die mijn horizon verruimen en mijn vaardigheden aanscherpen.</p>
+          <p style="margin-top:1rem;">Via diverse stages — van een ziekenhuis over een woonzorgcentrum tot een brasserie — heb ik geleerd om flexibel in te spelen op verschillende contexten, altijd met oog voor de mens achter de taak. Die sociale drive neem ik mee naar alles wat ik doe.</p>
+          <cite>— Alexander Heens, Student Marketing & Communicatie</cite>
+        </div>
+      </div>
+    </section>
+
+    <!-- CV / Werkervaring -->
+    <section class="exp-section">
+      <div class="section-inner">
+        <div class="section-label">Curriculum Vitae</div>
+        <h2 class="section-title">Werkervaring</h2>
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <div class="timeline-company">Get Driven</div>
+            <div class="timeline-role">Privé-chauffeur</div>
+            <span class="timeline-type">Professioneel</span>
+            <p class="timeline-desc">Sociale competentie en de nodige discretie zijn de voornaamste troeven in deze functie. Klanten vervoeren op een professionele en vertrouwelijke manier.</p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-company">AZ Malle</div>
+            <div class="timeline-role">Logistiek medewerker</div>
+            <span class="timeline-type">Schoolstage</span>
+            <p class="timeline-desc">Werken onder tijdsdruk en planmatig te werk gaan in een ziekenhuisomgeving.</p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-company">WZC Joostens</div>
+            <div class="timeline-role">Logistiek medewerker — Afdeling (Jong) Dementie</div>
+            <span class="timeline-type">Schoolstage</span>
+            <p class="timeline-desc">Verpleegkundigen bijstaan en omgaan met patiënten met een gevarieerd ziektebeeld. Sociale vaardigheden zoals geduld, begrip en inlevingsvermogen waren hier essentieel.</p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-company">Veritas</div>
+            <div class="timeline-role">Logistiek medewerker</div>
+            <span class="timeline-type">Schoolstage</span>
+            <p class="timeline-desc">Stockvoorraadbeheer en kassawerk. Punctualiteit en precisie als kernwaarden in de dagelijkse werking.</p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-company">Brasserie Anno 1907</div>
+            <div class="timeline-role">Barman & keukenhulp</div>
+            <span class="timeline-type">Schoolstage</span>
+            <p class="timeline-desc">Werken onder tijdsdruk in een dynamische horeca-omgeving, waarbij klantvriendelijkheid steeds de prioriteit bleef.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- LinkedIn -->
+    <div class="linkedin-strip">
+      <p>Bekijk mijn volledig profiel op LinkedIn</p>
+      <a class="linkedin-btn" href="https://www.linkedin.com/in/alexander-heens-010b31406/" target="_blank">
+        🔗 LinkedIn profiel
+      </a>
+    </div>
+
+    <footer>
+      <span class="footer-logo">AH</span>
+      <p>© 2026 Alexander Heens — Personal Branding</p>
+    </footer>
+  </div>
+
+  <!-- ═══ PAGE 2: WAT KAN IK ════════════════════ -->
+  <div id="page-skills" class="page">
+
+    <div class="skills-hero">
+      <div class="section-label">Competenties & Werk</div>
+      <h1>Wat kan ik?</h1>
+      <p>Een overzicht van mijn vaardigheden en de projecten die ik tijdens mijn opleiding en stages ontwikkeld heb.</p>
+    </div>
+
+    <!-- Skills bars -->
+    <section class="skills-bars">
+      <div class="section-inner">
+        <div class="section-label">Vaardigheden</div>
+        <h2 class="section-title">Mijn profiel in cijfers</h2>
+        <div class="skills-grid">
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">💬 Communicatief sterk</span>
+              <span class="skill-bar-pct">85%</span>
+            </div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">🤝 Teamplayer</span>
+              <span class="skill-bar-pct">100%</span>
+            </div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:100%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">💪 Stressbestendig</span>
+              <span class="skill-bar-pct">70%</span>
+            </div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:70%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">⏱️ Punctueel</span>
+              <span class="skill-bar-pct">90%</span>
+            </div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">🔄 Flexibel</span>
+              <span class="skill-bar-pct">85%</span>
+            </div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">🎯 Klantgericht</span>
+              <span class="skill-bar-pct">90%</span>
+            </div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Labs work -->
+    <section class="labs-section">
+      <div class="section-inner">
+        <div class="section-label">Lessen & Labs</div>
+        <h2 class="section-title">Mijn werk</h2>
+        <p style="color:var(--muted); margin-bottom:2.5rem; font-size:0.95rem;">
+          Hieronder vind je een overzicht van de domeinen waarin ik al werk gemaakt heb tijdens mijn opleiding Marketing- en Communicatiesupport. Concrete projecten en visueel materiaal worden hier toegevoegd tijdens WPL1 en WPL2.
+        </p>
+        <div class="labs-grid">
+          <div class="lab-card">
+            <div class="lab-icon">🎨</div>
+            <h3>Visuele communicatie</h3>
+            <p>Ontwerpen, lay-outs en visuele content gemaakt tijdens de lessen grafische communicatie.</p>
+            <span class="lab-badge">Wordt aangevuld</span>
+          </div>
+          <div class="lab-card">
+            <div class="lab-icon">📱</div>
+            <h3>Social media & content</h3>
+            <p>Content creatie voor sociale mediakanalen, inclusief copywriting en beeldmateriaal.</p>
+            <span class="lab-badge">Wordt aangevuld</span>
+          </div>
+          <div class="lab-card">
+            <div class="lab-icon">📣</div>
+            <h3>Marketingcommunicatie</h3>
+            <p>Campagne-ideeën, communicatieplannen en marketingconcepten uitgewerkt tijdens de opleiding.</p>
+            <span class="lab-badge">Wordt aangevuld</span>
+          </div>
+          <div class="lab-card">
+            <div class="lab-icon">🎤</div>
+            <h3>Presentatietechnieken</h3>
+            <p>Pitches, presentaties en publiek spreken — geoefend in realistische simulaties.</p>
+            <span class="lab-badge">Wordt aangevuld</span>
+          </div>
+          <div class="lab-card">
+            <div class="lab-icon">✍️</div>
+            <h3>Redactioneel schrijven</h3>
+            <p>Nieuwsbrieven, blogposts, persberichten en andere vormen van professioneel schrijven.</p>
+            <span class="lab-badge">Wordt aangevuld</span>
+          </div>
+          <div class="lab-card">
+            <div class="lab-icon">📊</div>
+            <h3>Analyse & rapportering</h3>
+            <p>Data interpreteren, rapporten opstellen en inzichten omzetten naar actieplannen.</p>
+            <span class="lab-badge">Wordt aangevuld</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span class="footer-logo">AH</span>
+      <p>© 2026 Alexander Heens — Personal Branding</p>
+    </footer>
+  </div>
+
+  <!-- ═══ PAGE 3: BLOG ══════════════════════════ -->
+  <div id="page-blog" class="page">
+
+    <div class="blog-hero">
+      <div class="section-label">Werkplekleren</div>
+      <h1>Blog — Mijn ervaringen op de werkvloer</h1>
+      <p>Hier deel ik binnenkort mijn inzichten, leermomenten en verhalen uit mijn werkplekleerperiodes WPL1 en WPL2.</p>
+    </div>
+
+    <section class="blog-coming">
+      <div class="section-inner">
+        <div class="blog-placeholder">
+          <div class="blog-clock">⏳</div>
+          <h2>Binnenkort hier te lezen!</h2>
+          <p>
+            Op deze pagina zal je <span class="highlight">mijn persoonlijk verslag over werkplekleren</span> kunnen lezen.
+            Tijdens WPL1 en WPL2 doe ik waardevolle werkervaring op in een professionele omgeving
+            en reflecteer ik op wat ik leer, wie ik ontmoet en hoe ik groei als marketing- en communicatieprofessional.
+          </p>
+          <p>
+            Verwacht blogposts over uitdagingen op de werkvloer, verrassende inzichten en concrete projecten
+            waar ik aan meewer. Kom regelmatig terug voor updates!
+          </p>
+
+          <div class="blog-wpl-cards">
+            <div class="wpl-card">
+              <div class="wpl-card-number">01</div>
+              <h3>WPL1 — DPG Media</h3>
+              <p>Stage bij één van de grootste mediabedrijven van België. Kennismaken met marketing en communicatie op professioneel niveau in een dynamische mediaomgeving.</p>
+              <span class="wpl-status">🕐 Verslag binnenkort beschikbaar</span>
+            </div>
+            <div class="wpl-card">
+              <div class="wpl-card-number">02</div>
+              <h3>WPL2 — BMW Jorssen Noord</h3>
+              <p>Stage bij BMW Jorssen Noord, waar ik marketing en communicatie in de automobielsector van dichtbij leer kennen en mijn vaardigheden verder uitdiep.</p>
+              <span class="wpl-status">🕐 Verslag binnenkort beschikbaar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="linkedin-strip">
+      <p>Volg mijn professionele updates op LinkedIn</p>
+      <a class="linkedin-btn" href="https://www.linkedin.com/in/alexander-heens-010b31406/" target="_blank">
+        🔗 LinkedIn profiel
+      </a>
+    </div>
+
+    <footer>
+      <span class="footer-logo">AH</span>
+      <p>© 2026 Alexander Heens — Personal Branding</p>
+    </footer>
+  </div>
+
+  <script>
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      document.getElementById('nav-' + name).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+  </script>
+</body>
+</html>
