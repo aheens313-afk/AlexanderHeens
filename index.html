@@ -375,6 +375,42 @@
       color: var(--gold); font-weight: 600;
     }
 
+
+    /* ─── WEEKBLOG ────────────────────────────── */
+    .weekblog { background: var(--white); }
+    .weekblog-intro { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 650px; margin: -1.5rem 0 2.5rem; }
+    .week-list { display: grid; gap: 1.25rem; }
+    .week-post { background: var(--cream); border-left: 4px solid var(--gold); }
+    .week-post summary {
+      list-style: none; cursor: pointer;
+      display: grid; grid-template-columns: auto 1fr auto; gap: 1.5rem; align-items: center;
+      padding: 1.5rem 2rem;
+    }
+    .week-post summary::-webkit-details-marker { display: none; }
+    .week-num {
+      font-family: 'Playfair Display', serif; font-weight: 900;
+      font-size: 2.4rem; line-height: 1; color: var(--gold);
+      min-width: 3.2rem;
+    }
+    .week-meta { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+    .week-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); }
+    .week-toggle { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy); font-weight: 700; white-space: nowrap; }
+    .week-toggle::after { content: ' ↓'; }
+    .week-post[open] .week-toggle::after { content: ' ↑'; }
+    .week-body { padding: 0 2rem 2rem calc(2rem + 3.2rem + 1.5rem); max-width: 860px; }
+    .week-body p { font-size: 1rem; line-height: 1.8; color: var(--text); margin-bottom: 1rem; }
+    .week-body h4 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.05rem; margin: 1.5rem 0 0.5rem; }
+    .week-body ul { margin: 0 0 1rem 1.2rem; line-height: 1.8; }
+    .week-post.upcoming { border-left-color: var(--gold-light); opacity: 0.75; }
+    .week-post.upcoming .week-num { color: var(--gold-light); }
+    .week-post.upcoming summary { cursor: default; }
+    .week-post.upcoming .week-title { color: var(--muted); font-weight: 400; font-style: italic; }
+    @media (max-width: 860px) {
+      .week-post summary { grid-template-columns: auto 1fr; padding: 1.25rem 1.25rem; gap: 1rem; }
+      .week-toggle { grid-column: 2; }
+      .week-body { padding: 0 1.25rem 1.5rem; }
+    }
+
     /* ─── LINKEDIN STRIP ──────────────────────── */
     .linkedin-strip {
       background: var(--mid); padding: 3rem;
@@ -705,8 +741,8 @@
           <div class="blog-wpl-cards">
             <div class="wpl-card">
               <div class="wpl-card-number">01</div>
-              <h3>WPL1: DPG Media</h3>
-              <p>Stage bij één van de grootste mediabedrijven van België. Kennismaken met marketing en communicatie op professioneel niveau in een dynamische mediaomgeving.</p>
+              <h3>WPL1: Antwerp Management School</h3>
+              <p>Zeven weken stage bij Antwerp Management School. Kennismaken met marketing en communicatie op professioneel niveau binnen een internationale businessschool.</p>
               <span class="wpl-status">🕐 Verslag binnenkort beschikbaar</span>
             </div>
             <div class="wpl-card">
@@ -716,6 +752,59 @@
               <span class="wpl-status">🕐 Verslag binnenkort beschikbaar</span>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WEEKBLOG WPL1 (nieuwe week: vervang een "upcoming"-blok door een gepubliceerd blok) -->
+    <section class="weekblog" id="weekblog-wpl1">
+      <div class="section-inner">
+        <div class="section-label">WPL1 · Antwerp Management School</div>
+        <h2 class="section-title">Weekblog</h2>
+        <p class="weekblog-intro">Zeven weken stage bij Antwerp Management School. Elke week schrijf ik hier hoe mijn week verliep: wat ik deed, wat ik leerde en wat me verraste.</p>
+        <div class="week-list">
+          <details class="week-post upcoming" id="week-1">
+            <summary onclick="if(this.parentElement.classList.contains('upcoming'))event.preventDefault()">
+              <span class="week-num">01</span>
+              <div><div class="week-meta">Week 1 · Antwerp Management School</div><div class="week-title">Volgt binnenkort</div></div>
+            </summary>
+          </details>
+          <details class="week-post upcoming" id="week-2">
+            <summary onclick="if(this.parentElement.classList.contains('upcoming'))event.preventDefault()">
+              <span class="week-num">02</span>
+              <div><div class="week-meta">Week 2 · Antwerp Management School</div><div class="week-title">Volgt binnenkort</div></div>
+            </summary>
+          </details>
+          <details class="week-post upcoming" id="week-3">
+            <summary onclick="if(this.parentElement.classList.contains('upcoming'))event.preventDefault()">
+              <span class="week-num">03</span>
+              <div><div class="week-meta">Week 3 · Antwerp Management School</div><div class="week-title">Volgt binnenkort</div></div>
+            </summary>
+          </details>
+          <details class="week-post upcoming" id="week-4">
+            <summary onclick="if(this.parentElement.classList.contains('upcoming'))event.preventDefault()">
+              <span class="week-num">04</span>
+              <div><div class="week-meta">Week 4 · Antwerp Management School</div><div class="week-title">Volgt binnenkort</div></div>
+            </summary>
+          </details>
+          <details class="week-post upcoming" id="week-5">
+            <summary onclick="if(this.parentElement.classList.contains('upcoming'))event.preventDefault()">
+              <span class="week-num">05</span>
+              <div><div class="week-meta">Week 5 · Antwerp Management School</div><div class="week-title">Volgt binnenkort</div></div>
+            </summary>
+          </details>
+          <details class="week-post upcoming" id="week-6">
+            <summary onclick="if(this.parentElement.classList.contains('upcoming'))event.preventDefault()">
+              <span class="week-num">06</span>
+              <div><div class="week-meta">Week 6 · Antwerp Management School</div><div class="week-title">Volgt binnenkort</div></div>
+            </summary>
+          </details>
+          <details class="week-post upcoming" id="week-7">
+            <summary onclick="if(this.parentElement.classList.contains('upcoming'))event.preventDefault()">
+              <span class="week-num">07</span>
+              <div><div class="week-meta">Week 7 · Antwerp Management School</div><div class="week-title">Volgt binnenkort</div></div>
+            </summary>
+          </details>
         </div>
       </div>
     </section>
