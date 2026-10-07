@@ -405,6 +405,28 @@
     .week-post.upcoming .week-num { color: var(--gold-light); }
     .week-post.upcoming summary { cursor: default; }
     .week-post.upcoming .week-title { color: var(--muted); font-weight: 400; font-style: italic; }
+    /* Reacties & duimpjes onder blogposts */
+    .week-react { border-top: 1px solid var(--gold-light); margin-top: 1.5rem; padding-top: 1.25rem; }
+    .like-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--white); border: 1px solid var(--gold); color: var(--navy); font: inherit; font-size: 0.85rem; font-weight: 700; padding: 0.45rem 0.9rem; cursor: pointer; transition: background .15s, color .15s; }
+    .like-btn:hover { background: var(--gold-light); }
+    .like-btn.liked { background: var(--navy); color: var(--white); border-color: var(--navy); }
+    .like-btn .thumb { font-size: 1.05rem; line-height: 1; }
+    .comments-title { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.05rem; margin: 1.5rem 0 0.75rem; }
+    .comment-list { display: grid; gap: 0.75rem; margin-bottom: 1rem; }
+    .comment { background: var(--white); padding: 0.85rem 1rem; border-left: 3px solid var(--gold-light); }
+    .comment-head { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.3rem; }
+    .comment-head strong { color: var(--navy); }
+    .comment-text { font-size: 0.95rem; line-height: 1.6; color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+    .comment-empty { font-size: 0.9rem; color: var(--muted); font-style: italic; }
+    .comment-del { background: none; border: 0; color: #b42318; cursor: pointer; font-size: 0.8rem; text-decoration: underline; }
+    .comment-form { display: grid; gap: 0.6rem; }
+    .comment-form input, .comment-form textarea { width: 100%; font: inherit; font-size: 0.95rem; padding: 0.6rem 0.75rem; border: 1px solid var(--gold-light); background: var(--white); color: var(--text); }
+    .comment-form input:focus, .comment-form textarea:focus { outline: 2px solid var(--gold); outline-offset: 0; }
+    .comment-form textarea { min-height: 90px; resize: vertical; }
+    .comment-form .hp { position: absolute; left: -9999px; }
+    .comment-form button { justify-self: start; background: var(--navy); color: var(--white); border: 0; font: inherit; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.7rem 1.4rem; cursor: pointer; }
+    .comment-form button:disabled { opacity: 0.6; cursor: default; }
+    .comment-msg { font-size: 0.85rem; color: var(--muted); min-height: 1.2em; }
     @media (max-width: 860px) {
       .week-post summary { grid-template-columns: auto 1fr; padding: 1.25rem 1.25rem; gap: 1rem; }
       .week-toggle { grid-column: 2; }
@@ -830,6 +852,83 @@
       document.getElementById('nav-' + name).classList.add('active');
       window.scrollTo(0, 0);
     }
+  </script>
+  <script>
+  /* Reacties en duimpjes: worden automatisch onder elke gepubliceerde blogpost gezet. */
+  (function () {
+    var adminKey = null;
+    if (location.hash === '#beheer') {
+      adminKey = prompt('Beheerderssleutel om reacties te verwijderen:');
+      history.replaceState(null, '', location.pathname);
+    }
+    function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+    function fmt(ts) { try { return new Date(ts).toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return ''; } }
+    function api(path, opts) {
+      return fetch(path, opts).then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error(d.error || 'Er ging iets mis.'); return d; }); });
+    }
+    function setup(post) {
+      var id = post.id, body = post.querySelector('.week-body');
+      if (!body || body.querySelector('.week-react')) return;
+      var box = el('div', 'week-react');
+      var like = el('button', 'like-btn'); like.type = 'button';
+      var thumb = el('span', 'thumb', '👍'), cnt = el('span', 'like-count', '0');
+      like.append(thumb, cnt); like.setAttribute('aria-label', 'Duimpje geven');
+      var title = el('h4', 'comments-title', 'Reacties');
+      var list = el('div', 'comment-list');
+      var form = el('form', 'comment-form');
+      var name = el('input'); name.placeholder = 'Je naam'; name.maxLength = 60; name.required = true; name.setAttribute('aria-label', 'Je naam');
+      var text = el('textarea'); text.placeholder = 'Schrijf een reactie…'; text.maxLength = 1000; text.required = true; text.setAttribute('aria-label', 'Je reactie');
+      var hp = el('input', 'hp'); hp.tabIndex = -1; hp.autocomplete = 'off'; hp.setAttribute('aria-hidden', 'true');
+      var send = el('button', null, 'Plaats reactie'); send.type = 'submit';
+      var msg = el('div', 'comment-msg');
+      try { name.value = localStorage.getItem('ah-name') || ''; } catch (e) {}
+      form.append(name, text, hp, send, msg);
+      box.append(like, title, list, form);
+      body.appendChild(box);
+
+      function render(comments) {
+        list.innerHTML = '';
+        if (!comments.length) { list.appendChild(el('p', 'comment-empty', 'Nog geen reacties. Wees de eerste!')); return; }
+        comments.forEach(function (c) {
+          var item = el('div', 'comment'), head = el('div', 'comment-head');
+          var who = el('strong', null, c.name), right = el('span', null, fmt(c.ts));
+          head.append(who, right);
+          if (adminKey) {
+            var del = el('button', 'comment-del', 'verwijderen'); del.type = 'button';
+            del.onclick = function () {
+              api('/api/blog?type=comments', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ post: id, id: c.id, key: adminKey }) })
+                .then(load).catch(function (e) { msg.textContent = e.message; });
+            };
+            right.append(' · ', del);
+          }
+          item.append(head, el('div', 'comment-text', c.text));
+          list.appendChild(item);
+        });
+      }
+      function load() { return api('/api/blog?type=comments&post=' + id).then(function (d) { render(d.comments); }).catch(function () { list.innerHTML = ''; list.appendChild(el('p', 'comment-empty', 'Reacties konden niet geladen worden.')); }); }
+      function showLike(d) { cnt.textContent = d.count; like.classList.toggle('liked', d.liked); like.setAttribute('aria-pressed', d.liked); }
+
+      var loaded = false;
+      function init() { if (loaded) return; loaded = true; load(); api('/api/blog?type=likes&post=' + id).then(showLike).catch(function () {}); }
+      if (post.open) init(); post.addEventListener('toggle', function () { if (post.open) init(); });
+
+      like.onclick = function () {
+        like.disabled = true;
+        api('/api/blog?type=likes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ post: id }) })
+          .then(showLike).catch(function () {}).then(function () { like.disabled = false; });
+      };
+      form.onsubmit = function (ev) {
+        ev.preventDefault();
+        send.disabled = true; msg.textContent = 'Bezig met plaatsen…';
+        try { localStorage.setItem('ah-name', name.value.trim()); } catch (e) {}
+        api('/api/blog?type=comments', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ post: id, name: name.value, text: text.value, website: hp.value }) })
+          .then(function () { text.value = ''; msg.textContent = 'Bedankt voor je reactie!'; return load(); })
+          .catch(function (e) { msg.textContent = e.message; })
+          .then(function () { send.disabled = false; });
+      };
+    }
+    document.querySelectorAll('#weekblog-wpl1 .week-post:not(.upcoming)').forEach(setup);
+  })();
   </script>
 </body>
 </html>
