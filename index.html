@@ -369,6 +369,8 @@
       font-size: 1.1rem; color: var(--navy); margin: 0.5rem 0;
     }
     .wpl-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+    .wpl-status-live { color: var(--navy); text-decoration: none; border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
+    .wpl-status-live:hover { color: var(--gold); }
     .wpl-status {
       display: inline-block; margin-top: 1rem;
       font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
@@ -742,22 +744,22 @@
     <div class="blog-hero">
       <div class="section-label">Werkplekleren</div>
       <h1>Blog — Mijn ervaringen op de werkvloer</h1>
-      <p>Hier deel ik binnenkort mijn inzichten, leermomenten en verhalen uit mijn werkplekleerperiodes WPL1 en WPL2.</p>
+      <p>Hier deel ik mijn inzichten, leermomenten en verhalen uit mijn werkplekleerperiodes WPL1 en WPL2.</p>
     </div>
 
     <section class="blog-coming">
       <div class="section-inner">
         <div class="blog-placeholder">
-          <div class="blog-clock">⏳</div>
-          <h2>Binnenkort hier te lezen!</h2>
+          <div class="blog-clock">✍️</div>
+          <h2>Nu te lezen: mijn stageverhaal</h2>
           <p>
-            Op deze pagina zal je <span class="highlight">mijn persoonlijk verslag over werkplekleren</span> kunnen lezen.
+            Op deze pagina lees je <span class="highlight">mijn persoonlijk verslag over werkplekleren</span>.
             Tijdens WPL1 en WPL2 doe ik waardevolle werkervaring op in een professionele omgeving
             en reflecteer ik op wat ik leer, wie ik ontmoet en hoe ik groei als marketing- en communicatieprofessional.
           </p>
           <p>
-            Verwacht blogposts over uitdagingen op de werkvloer, verrassende inzichten en concrete projecten
-            waar ik aan meewer. Kom regelmatig terug voor updates!
+            Elke week verschijnt er een nieuwe blogpost over uitdagingen op de werkvloer, verrassende inzichten en concrete projecten
+            waar ik aan meewerk. Laat gerust een reactie of een duimpje achter!
           </p>
 
           <div class="blog-wpl-cards">
@@ -765,7 +767,7 @@
               <div class="wpl-card-number">01</div>
               <h3>WPL1: Antwerp Management School</h3>
               <p>Zeven weken stage binnen het marketingteam van Antwerp Management School. Ik werk mee aan marketingopdrachten, van content en social media tot campagnes, en ontdek hoe marketing werkt binnen een internationale businessschool.</p>
-              <span class="wpl-status">🕐 Verslag binnenkort beschikbaar</span>
+              <a class="wpl-status wpl-status-live" href="#weekblog-wpl1" onclick="event.preventDefault();document.getElementById('weekblog-wpl1').scrollIntoView({behavior:'smooth'})">✍️ Lees nu de weekblog ↓</a>
             </div>
             <div class="wpl-card">
               <div class="wpl-card-number">02</div>
