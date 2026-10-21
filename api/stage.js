@@ -16,8 +16,8 @@ const DAYS = {
   4: { datum: '2026-10-13', start: '09:00', einde: '17:00', taken: 'Geboekte tickets voor het event in het KMSKA gecontroleerd in Odoo.' },
   5: { datum: '2026-10-14', start: '09:00', einde: '17:00', taken: 'Brainstorm over wat AMS kan aanbieden tijdens de opendeurdagen; verder gewerkt in Odoo.' },
   6: { datum: '2026-10-19', start: '09:00', einde: '17:00', taken: 'Briefing website met Herwig; LinkedIn-carrousel met Tanée; vertaling post en correctie.' },
-  7: { datum: '2026-10-20', start: '09:00', einde: '17:00', taken: 'Voorbereiding video met Mirte; contacten mergen in Odoo met Margo.' },
-  8: { datum: '2026-10-21', start: '09:00', einde: '17:00', taken: 'Contacten mergen in Odoo met Margo afgewerkt; maandkrantje AMS met Tanée; video bewerkt na feedback van Mirte; aanpassing in merge van Els.' },
+  7: { datum: '2026-10-20', start: '09:00', einde: '17:00', taken: 'Voorbereiding video voor Mirte; contacten mergen in Odoo voor Margo.' },
+  8: { datum: '2026-10-21', start: '09:00', einde: '17:00', taken: 'Contacten mergen in Odoo voor Margo afgewerkt; maandkrantje AMS met Tanée; video bewerkt na feedback van Mirte; aanpassing in merge voor Els.' },
 };
 
 async function redis(...cmds) {
