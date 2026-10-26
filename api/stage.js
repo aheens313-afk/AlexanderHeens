@@ -18,6 +18,7 @@ const DAYS = {
   6: { datum: '2026-10-19', start: '09:00', einde: '17:00', taken: 'Briefing website met Herwig; LinkedIn-carrousel met Tanée; vertaling post en correctie.' },
   7: { datum: '2026-10-20', start: '09:00', einde: '17:00', taken: 'Voorbereiding video voor Mirte; contacten mergen in Odoo voor Margo.' },
   8: { datum: '2026-10-21', start: '09:00', einde: '17:00', taken: 'Contacten mergen in Odoo voor Margo afgewerkt; maandkrantje AMS met Tanée; video bewerkt na feedback van Mirte; aanpassing in merge voor Els.' },
+  9: { datum: '2026-10-26', start: '09:00', einde: '17:00', taken: 'Video afgewerkt voor Mirte; jobtitels van contacten aangevuld in Odoo; wireframes in Word en een verbeterdocument gemaakt voor de brochures.' },
 };
 
 async function redis(...cmds) {
