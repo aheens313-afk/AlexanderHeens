@@ -93,7 +93,7 @@ button { font: inherit; cursor: pointer }
 <main>
   <div>
     <h1>Aanwezigheden WPL1</h1>
-    <p class="lead">Dag Stephanie. Hieronder staan mijn stagedagen. Tik bij een dag op “Ondertekenen” en teken met je vinger of muis.</p>
+    <p class="lead">Dag Stéphanie. Hieronder staan mijn stagedagen. Tik bij een dag op “Ondertekenen” en teken met je vinger of muis.</p>
   </div>
 
   <div id="app">
@@ -102,7 +102,7 @@ button { font: inherit; cursor: pointer }
         <dl class="info">
           <dt>Naam student</dt><dd>Alexander Heens</dd>
           <dt>Bedrijf</dt><dd>Antwerp Management School</dd>
-          <dt>Werkplekmentor</dt><dd>Stephanie Stappaerts</dd>
+          <dt>Werkplekmentor</dt><dd>Stéphanie Stappaerts</dd>
           <dt>Lector</dt><dd>Leen Pairon</dd>
         </dl>
         <div class="bar">
@@ -162,7 +162,7 @@ button { font: inherit; cursor: pointer }
       startY: 34, margin: { left: L }, tableWidth: 200, theme: "grid",
       styles: { font: "helvetica", fontStyle: "bold", textColor: 0, lineColor: 0, lineWidth: 0.25, cellPadding: { top: 0.8, bottom: 0.8, left: 1.5, right: 1.5 } },
       columnStyles: { 0: { cellWidth: 80, fontSize: 11 }, 1: { cellWidth: 120, fontSize: 12.5 } },
-      body: [["Naam student", "Alexander Heens"], ["Bedrijf", "Antwerp Management School"], ["Naam Werkplekmentor", "Stephanie Stappaerts"], ["Naam Lector", "Leen Pairon"]],
+      body: [["Naam student", "Alexander Heens"], ["Bedrijf", "Antwerp Management School"], ["Naam Werkplekmentor", "Stéphanie Stappaerts"], ["Naam Lector", "Leen Pairon"]],
     });
 
     let y = doc.lastAutoTable.finalY + 8;
@@ -290,7 +290,7 @@ button { font: inherit; cursor: pointer }
     c[2].appendChild(txt(d.taken || "Nog geen taken ingevuld", d.taken ? "taken" : "leeg"));
     if (d.sig) {
       const w = document.createElement("div"); w.className = "sigimg";
-      const img = document.createElement("img"); img.src = d.sig; img.alt = "Handtekening Stephanie Stappaerts"; w.appendChild(img);
+      const img = document.createElement("img"); img.src = d.sig; img.alt = "Handtekening Stéphanie Stappaerts"; w.appendChild(img);
       c[3].appendChild(w);
       const chip = document.createElement("span"); chip.className = "chip"; chip.textContent = stamp(d.sigAt); c[3].appendChild(chip);
       if (u.confirming) {
@@ -331,7 +331,7 @@ button { font: inherit; cursor: pointer }
     const w = $("sigWhat"); w.textContent = "";
     const a = document.createElement("b"); a.textContent = label(d.datum) + " · " + uur(d.start) + " – " + uur(d.einde);
     const b = document.createElement("div"); b.textContent = d.taken;
-    const c = document.createElement("div"); c.className = "note"; c.textContent = "Ondertekend door Stephanie Stappaerts, werkplekmentor.";
+    const c = document.createElement("div"); c.className = "note"; c.textContent = "Ondertekend door Stéphanie Stappaerts, werkplekmentor.";
     w.append(a, b, c); $("modal").hidden = false; resetPad();
   }
   const closePad = () => { $("modal").hidden = true; padI = -1; };
