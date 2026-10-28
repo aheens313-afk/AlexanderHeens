@@ -20,7 +20,7 @@ const DAYS = {
   8: { datum: '2026-10-21', start: '09:00', einde: '17:00', taken: 'Contacten mergen in Odoo voor Margo afgewerkt; maandkrantje AMS met Tanée; video bewerkt na feedback van Mirte; aanpassing in merge voor Els.' },
   9: { datum: '2026-10-26', start: '09:00', einde: '17:00', taken: 'Video afgewerkt voor Mirte; jobtitels van contacten aangevuld in Odoo; wireframes in Word en een verbeterdocument gemaakt voor de brochures.' },
   10: { datum: '2026-10-27', start: '09:00', einde: '17:00', taken: 'Websiteanalyse in Word en brochurecheck in Excel voor Stéphanie; social-mediapost voorbereid voor Mirte.' },
-  11: { datum: '2026-10-28', start: '09:00', einde: '17:00', taken: 'Takenbord geordend; merchandise met Margo; door AI gemaakte websiteanalyses verbeterd met Gwen.' },
+  11: { datum: '2026-10-28', start: '09:00', einde: '17:00', taken: 'Takenbord geordend; merchandise met Margo; door AI gemaakte websiteanalyses verbeterd met Gwen; video\'s van Mirte op vraag van Stéphanie in 3 formaten gezet.' },
 };
 
 async function redis(...cmds) {
