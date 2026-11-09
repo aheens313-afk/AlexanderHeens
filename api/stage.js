@@ -21,6 +21,7 @@ const DAYS = {
   9: { datum: '2026-10-26', start: '09:00', einde: '17:00', taken: 'Video afgewerkt voor Mirte; jobtitels van contacten aangevuld in Odoo; wireframes in Word en een verbeterdocument gemaakt voor de brochures.' },
   10: { datum: '2026-10-27', start: '09:00', einde: '17:00', taken: 'Websiteanalyse in Word en brochurecheck in Excel voor Stéphanie; social-mediapost voorbereid voor Mirte.' },
   11: { datum: '2026-10-28', start: '09:00', einde: '17:00', taken: 'Takenbord geordend; merchandise met Margo; door AI gemaakte websiteanalyses verbeterd met Gwen; video\'s van Mirte op vraag van Stéphanie in 3 formaten gezet.' },
+  12: { datum: '2026-11-09', start: '09:00', einde: '17:00', taken: 'Briefing over de goodiebags voor Tanée; verder gewerkt aan de brochures voor Gwen; merchandise met Gwen en Els.' },
 };
 
 async function redis(...cmds) {
