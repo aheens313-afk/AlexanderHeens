@@ -186,6 +186,7 @@ button { font: inherit; cursor: pointer }
       body.push([{ content: w === 7 ? "INHAALWEEK" : "WEEK " + (w + 1), styles: { fillColor: GREY } }, ...[1, 2, 3, 4].map(() => ({ content: "", styles: { fillColor: GREY } }))]);
       for (let k = 0; k < 3; k++) {
         const i = w * 3 + k, d = dagen[i] || {};
+        if (!d.datum && dagen.slice(i + 1).some((x) => x && x.datum && x.datum <= new Date().toISOString().slice(0, 10))) continue;
         if (d.sig) sigs[body.length] = d.sig;
         body.push([d.datum ? datumLabel(d.datum) : "Datum", uur(d.start), uur(d.einde), { content: d.taken || "", styles: { fontSize: 7.5 } }, ""]);
       }
@@ -254,6 +255,9 @@ button { font: inherit; cursor: pointer }
   const uur = (t) => (t || "").replace(/^0(\d:)/, "$1");
   const complete = (d) => d.datum && d.start && d.einde && String(d.taken).trim();
 
+  const vandaag = new Date().toISOString().slice(0, 10);
+  // Voorbije dagen zonder invulling (bv. geen stage) worden niet getoond.
+  function verborgen(i) { const d = days[i]; if (d && d.datum) return false; for (let j = i + 1; j < days.length; j++) { const x = days[j]; if (x && x.datum && x.datum <= vandaag) return true; } return false; }
   function build() {
     const box = $("weeks"); box.textContent = "";
     for (let w = 0; w < 8; w++) {
@@ -270,7 +274,7 @@ button { font: inherit; cursor: pointer }
   }
   function renderAll() { for (let i = 0; i < N; i++) renderDay(i); renderProgress(); }
   function renderProgress() {
-    const n = days.filter((d) => d.sig).length;
+    const n = days.filter((d) => d.sig).length; const N = days.filter((d, i) => !verborgen(i)).length;
     const todo = days.filter((d) => !d.sig && complete(d)).length;
     $("progressText").textContent = n + " van " + N + " dagen ondertekend" + (todo ? " · " + todo + " te ondertekenen" : "");
     $("meterFill").style.width = (n / N * 100) + "%";
@@ -281,7 +285,7 @@ button { font: inherit; cursor: pointer }
 
   function renderDay(i) {
     const d = days[i], u = ui[i], el = u.el;
-    el.textContent = ""; el.classList.toggle("signed", !!d.sig);
+    el.textContent = ""; el.classList.toggle("signed", !!d.sig); el.style.display = verborgen(i) ? "none" : "";
     const c = [0, 1, 2, 3].map(() => document.createElement("div"));
     c[0].innerHTML = '<span class="lbl">Datum</span>'; c[1].innerHTML = '<span class="lbl">Uren</span>';
     c[2].innerHTML = '<span class="lbl">Omschrijving taken</span>'; c[3].innerHTML = '<span class="lbl">Handtekening mentor</span>';
