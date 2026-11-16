@@ -6,10 +6,10 @@ const crypto = require('crypto');
 
 const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-const N = 21;
+const N = 24;
 const KEY = 'stage:sig';
 
-// Index 0-2 = week 1, 3-5 = week 2, ... 18-20 = week 7.
+// Index 0-2 = week 1, 3-5 = week 2, ... 18-20 = week 7, 21-23 = inhaalweek (7-9 december).
 const DAYS = {
   0: { datum: '2026-10-07', start: '09:00', einde: '17:00', taken: 'Eerste stagedag: kennismaking met het marketingteam en de werking van de afdeling; eerste brochures nagelezen.' },
   3: { datum: '2026-10-12', start: '09:00', einde: '17:00', taken: 'Brochures nagelezen en gecontroleerd; zo een beter beeld gekregen van de opleidingen van AMS.' },
@@ -24,6 +24,9 @@ const DAYS = {
   12: { datum: '2026-11-09', start: '09:00', einde: '17:00', taken: 'Briefing over de goodiebags voor Tanée; verder gewerkt aan de brochures voor Gwen; merchandise met Gwen en Els.' },
   13: { datum: '2026-11-10', start: '09:00', einde: '17:00', taken: 'Goodiebags gevuld voor Tanée, volgende week ga ik hiermee verder; merchandise met Els.' },
   15: { datum: '2026-11-16', start: '09:00', einde: '17:00', taken: 'Goodiebags gevuld met pennen, blocnotes, schrijfboekjes, stickers en drinkbussen van AMS en ze naar een andere plek in het gebouw verhuisd voor Tanée.' },
+  21: { datum: '2026-12-07', start: '09:00', einde: '17:00', taken: '' },
+  22: { datum: '2026-12-08', start: '09:00', einde: '17:00', taken: '' },
+  23: { datum: '2026-12-09', start: '09:00', einde: '17:00', taken: '' },
 };
 
 async function redis(...cmds) {
