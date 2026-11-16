@@ -182,15 +182,15 @@ button { font: inherit; cursor: pointer }
     y += 6;
 
     const body = [], sigs = {};
-    for (let w = 0; w < 7; w++) {
-      body.push([{ content: "WEEK " + (w + 1), styles: { fillColor: GREY } }, ...[1, 2, 3, 4].map(() => ({ content: "", styles: { fillColor: GREY } }))]);
+    for (let w = 0; w < 8; w++) {
+      body.push([{ content: w === 7 ? "INHAALWEEK" : "WEEK " + (w + 1), styles: { fillColor: GREY } }, ...[1, 2, 3, 4].map(() => ({ content: "", styles: { fillColor: GREY } }))]);
       for (let k = 0; k < 3; k++) {
         const i = w * 3 + k, d = dagen[i] || {};
         if (d.sig) sigs[body.length] = d.sig;
         body.push([d.datum ? datumLabel(d.datum) : "Datum", uur(d.start), uur(d.einde), { content: d.taken || "", styles: { fontSize: 7.5 } }, ""]);
       }
     }
-    for (let e = 0; e < 2; e++) {
+    for (let e = 0; e < 1; e++) {
       body.push([0, 1, 2, 3, 4].map(() => ({ content: "", styles: { fillColor: GREY } })));
       for (let k = 0; k < 3; k++) body.push(["", "", "", "", ""]);
     }
@@ -233,7 +233,7 @@ button { font: inherit; cursor: pointer }
 </script>
 <script>
 (function () {
-  const N = 21, API = "/api/stage";
+  const N = 24, API = "/api/stage";
   const DAGEN = ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"];
   const $ = (id) => document.getElementById(id);
   let days = [];
@@ -256,9 +256,9 @@ button { font: inherit; cursor: pointer }
 
   function build() {
     const box = $("weeks"); box.textContent = "";
-    for (let w = 0; w < 7; w++) {
+    for (let w = 0; w < 8; w++) {
       const sec = document.createElement("section"); sec.className = "week";
-      const h2 = document.createElement("h2"); h2.textContent = "Week " + (w + 1); sec.appendChild(h2);
+      const h2 = document.createElement("h2"); h2.textContent = w === 7 ? "Inhaalweek" : "Week " + (w + 1); sec.appendChild(h2);
       const list = document.createElement("div"); list.className = "days"; sec.appendChild(list);
       for (let k = 0; k < 3; k++) {
         const i = w * 3 + k;
