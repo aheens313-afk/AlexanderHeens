@@ -126,6 +126,7 @@ button { font: inherit; cursor: pointer }
     <div class="what" id="sigWhat"></div>
     <div class="pad"><div class="base"></div><span class="hint">Teken hier met je vinger of muis</span><canvas id="canvas"></canvas></div>
     <p class="msg" id="padMsg"></p>
+    <p style="font-size:13px;opacity:.75;margin:6px 0 0">Let op: een handtekening kan achteraf niet meer ingetrokken worden.</p>
     <div class="actions">
       <button class="btn ghost left" type="button" id="padClear">Wissen</button>
       <button class="btn ghost" type="button" id="padCancel">Annuleren</button>
@@ -297,11 +298,7 @@ button { font: inherit; cursor: pointer }
       const img = document.createElement("img"); img.src = d.sig; img.alt = "Handtekening Stéphanie Stappaerts"; w.appendChild(img);
       c[3].appendChild(w);
       const chip = document.createElement("span"); chip.className = "chip"; chip.textContent = stamp(d.sigAt); c[3].appendChild(chip);
-      if (u.confirming) {
-        const cf = document.createElement("div"); cf.className = "confirm"; cf.append("Handtekening intrekken?");
-        cf.append(btn("Intrekken", "danger", async () => { u.confirming = false; await act({ action: "unsign", i }); }), btn("Behouden", "", () => { u.confirming = false; renderDay(i); }));
-        c[3].appendChild(cf);
-      } else c[3].appendChild(btn("Handtekening intrekken", "linkish", () => { u.confirming = true; renderDay(i); }));
+      // Intrekken is uitgeschakeld: een gezette handtekening blijft staan.
     } else {
       const b = btn(complete(d) ? "Ondertekenen" : "Nog niet ingevuld", "signbtn", () => openPad(i));
       b.disabled = !complete(d); c[3].appendChild(b);
