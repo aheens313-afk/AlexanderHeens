@@ -1,7 +1,7 @@
 // Aanwezigheidsformulier WPL1: Stéphanie ondertekent elke stagedag.
 // De dagen zelf staan hieronder in DAYS (Claude past ze aan op vraag van Alexander).
 // GET  /api/stage                 -> { days }
-// POST /api/stage { action: "sign", i, sig } | { action: "unsign", i }
+// POST /api/stage { action: "sign", i, sig }  (intrekken is uitgeschakeld)
 const crypto = require('crypto');
 
 const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
@@ -91,7 +91,8 @@ module.exports = async (req, res) => {
       const [ok] = await redis(['HSETNX', KEY, fid(i), JSON.stringify({ sig, sigAt: new Date().toISOString() })]);
       if (!ok) return res.status(409).json({ error: 'Deze dag is al ondertekend.' });
     } else if (b.action === 'unsign') {
-      await redis(['HDEL', KEY, fid(i)]);
+      // Een handtekening kan niet meer ingetrokken worden (op vraag van Alexander, 17/11/2026).
+      return res.status(403).json({ error: 'Een handtekening kan niet meer ingetrokken worden.' });
     } else {
       return res.status(400).json({ error: 'Onbekende actie' });
     }
