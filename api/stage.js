@@ -26,6 +26,7 @@ const DAYS = {
   15: { datum: '2026-11-16', start: '09:00', einde: '17:00', taken: 'Goodiebags gevuld met pennen, blocnotes, schrijfboekjes, stickers en drinkbussen van AMS en ze naar een andere plek in het gebouw verhuisd voor Tanée.' },
   16: { datum: '2026-11-17', start: '09:00', einde: '17:00', taken: 'Verder gewerkt aan de goodiebags voor Tanée; 8 nieuwe landingspagina\'s nagekeken op spelling en lay-out voor Els.' },
   17: { datum: '2026-11-18', start: '09:00', einde: '17:00', taken: 'Rest van de goodiebags naar de tussenkelder gebracht; landingspagina\'s en brochures van de masters nagekeken op spelling en lay-out voor Els en Gwen.' },
+  18: { datum: '2026-11-23', start: '09:00', einde: '17:00', taken: 'Eerste analyse van de website gemaakt voor Els en Gwen; naamkaartjes uit de plastic houders gehaald voor Margo; goodiebags gevuld voor Els; brochures afgedrukt en in kaftjes gestoken; jobs en bedrijven aan contacten toegevoegd in Odoo voor Tanée.' },
   21: { datum: '2026-12-07', start: '09:00', einde: '17:00', taken: '' },
   22: { datum: '2026-12-08', start: '09:00', einde: '17:00', taken: '' },
   23: { datum: '2026-12-09', start: '09:00', einde: '17:00', taken: '' },
